@@ -87,6 +87,14 @@ h6 {
   font-family: var(--heading-font);
 }
 
+/* AKA styles */
+.aka-text {
+  color: #ffcc00;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+
 /* PHP Email Form Messages
 ------------------------------*/
 .php-email-form .error-message {
