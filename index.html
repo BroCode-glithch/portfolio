@@ -810,39 +810,32 @@
         </div>
 
         <div class="col-lg-7">
-            <form action="/api/contact" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-                <div class="row gy-4">
-
-                    <div class="col-md-6">
-                        <label for="name-field" class="pb-2">Your Name</label>
-                        <input type="text" name="name" id="name-field" class="form-control" required="">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="email-field" class="pb-2">Your Email</label>
-                        <input type="email" class="form-control" name="email" id="email-field" required="">
-                    </div>
-
-                    <div class="col-md-12">
-                        <label for="subject-field" class="pb-2">Subject</label>
-                        <input type="text" class="form-control" name="subject" id="subject-field" required="">
-                    </div>
-
-                    <div class="col-md-12">
-                        <label for="message-field" class="pb-2">Message</label>
-                        <textarea class="form-control" name="message" rows="10" id="message-field" required=""></textarea>
-                    </div>
-
-                    <div class="col-md-12 text-center">
-                        <div class="loading">Loading</div>
-                        <!-- <div class="error-message"></div> -->
-                        <!-- <div class="sent-message">Your message has been sent. Thank you!</div> -->
-
-                        <button type="submit">Send Message</button>
-                    </div>
-
-                </div>
-            </form>
+            <form id="contact-form" action="/api/contact" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="name-field">Name</label>
+            <input type="text" name="name" id="name-field" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="email-field">Email</label>
+            <input type="email" name="email" id="email-field" class="form-control" required>
+        </div>
+        <div class="col-md-12">
+            <label for="subject-field">Subject</label>
+            <input type="text" name="subject" id="subject-field" class="form-control" required>
+        </div>
+        <div class="col-12">
+            <label for="message-field">Message</label>
+            <textarea name="message" id="message-field" class="form-control" rows="5" required></textarea>
+        </div>
+        <div class="col-12 text-center">
+            <div class="loading" style="display: none;">Sending...</div>
+            <div class="sent-message" style="display: none; color: green; font-weight: bold;">Your message has been sent successfully.</div>
+            <div class="error-message" style="display: none; color: red; font-weight: bold;">Failed to send message. Please try again.</div>
+            <button type="submit">Send Message</button>
+        </div>
+    </div>
+</form>
         </div><!-- End Contact Form -->
 
     </div>
@@ -884,32 +877,43 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script>
-document.querySelector(".php-email-form").addEventListener("submit", async function(event) {
-    event.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".php-email-form").addEventListener("submit", async function (e) {
+        e.preventDefault(); // Prevent default form submission
 
-    const formData = new FormData(this);
-    const responseMessage = document.querySelector(".sent-message");
+        let form = e.target;
+        let formData = new FormData(form);
 
-    try {
-        let response = await fetch("/api/contact", {
-            method: "POST",
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: { "Content-Type": "application/json" }
-        });
+        let loadingMessage = form.querySelector(".sent-message");
+        let errorMessage = form.querySelector(".sent-message");
+        let loadingMessage = form.querySelector(".sent-message");
 
-        let data = await response.json();
+        // Show loading message
+        loadingMessage.style.display = "block";
+        loadingMessage.textContent = "Sending...";
 
-        if (response.ok) {
-            responseMessage.textContent = "Your message has been sent. Thank you!";
-            responseMessage.style.display = "block";
-        } else {
-            responseMessage.textContent = data.error || "Error sending message.";
-            responseMessage.style.display = "block";
+        try {
+            let response = await fetch(form.action, {
+                method: form.method,
+                body: formData,
+            });
+
+            if (response.ok) {
+                // Show success message and clear form
+                loadingMessage.style.display = "none";
+                successMessage.style.display = "block";
+                form.reset();
+            } else {
+                // Show error message
+                loadingMessage.style.display = "none";
+                errorMessage.style.display = "block";
+            }
+        } catch (error) {
+            loadingMessage.style.display = "none";
+            errorMessage.style.display = "block";
+            console.error("Error sending message:", error);
         }
-    } catch (error) {
-        responseMessage.textContent = "Network error. Try again later.";
-        responseMessage.style.display = "block";
-    }
+    });
 });
 </script>
 
