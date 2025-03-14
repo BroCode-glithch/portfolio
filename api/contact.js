@@ -23,12 +23,11 @@ export default async function handler(req, res) {
         });
 
         let mailOptions = {
-    from: `"Your Website Name" <${process.env.EMAIL_USER}>`, // Use your email here
-    to: process.env.EMAIL_USER,
-    replyTo: email, // The sender's email
-    subject: `New Contact Form Submission: ${subject}`,
-    text: `You have a new message from ${name} (${email}):\n\n${message}`,
-};
+            from: email,
+            to: process.env.EMAIL_USER,
+            subject: subject,
+            text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+        };
 
         await transporter.sendMail(mailOptions);
         return res.status(200).json({ success: "Message sent successfully!" });
