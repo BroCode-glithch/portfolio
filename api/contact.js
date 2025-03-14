@@ -23,21 +23,11 @@ export default async function handler(req, res) {
         });
 
         let mailOptions = {
-    from: `Your Name <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER,  // Receiving email (yours)
-    replyTo: formData.get("email"), // The user's email, so you can reply directly
-    subject: `New Contact Message from ${formData.get("name")}`,
-    html: `
-        <div style="font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; border-radius: 10px;">
-            <h2 style="color: #4CAF50; text-align: center;">📩 New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${formData.get("name")}</p>
-            <p><strong>Email:</strong> <a href="mailto:${formData.get("email")}" style="color: #3498db;">${formData.get("email")}</a></p>
-            <p><strong>Subject:</strong> ${formData.get("subject")}</p>
-            <p><strong>Message:</strong></p>
-            <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${formData.get("message")}</p>
-            <hr>
-            <p style="text-align: center; font-size: 12px; color: #555;">This message was sent via your website contact form.</p>
-        `
+    from: `"Your Website Name" <${process.env.EMAIL_USER}>`, // Use your email here
+    to: process.env.EMAIL_USER,
+    replyTo: email, // The sender's email
+    subject: `New Contact Form Submission: ${subject}`,
+    text: `You have a new message from ${name} (${email}):\n\n${message}`,
 };
 
         await transporter.sendMail(mailOptions);
