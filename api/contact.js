@@ -14,26 +14,38 @@ export default async function handler(req, res) {
 
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
+            port: 465, // Use 465 for SSL, 587 for TLS
+            secure: true, // true for 465, false for 587
             auth: {
-                user: process.env.EMAIL_USER, // Use environment variables
-                pass: process.env.EMAIL_PASS, 
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
             },
         });
 
         let mailOptions = {
-            from: email,
+            from: `"Your Website Name" <${process.env.EMAIL_USER}>`, 
             to: process.env.EMAIL_USER,
-            subject: subject,
-            text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+            replyTo: email,
+            subject: `New Message from: ${name} - ${subject}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
+                    <h2 style="background: #007bff; color: white; padding: 10px; text-align: center;">New Contact Form Submission</h2>
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+                    <p><strong>Subject:</strong> ${subject}</p>
+                    <p><strong>Message:</strong></p>
+                    <p style="background: #f4f4f4; padding: 15px; border-left: 4px solid #007bff;">${message}</p>
+                    <hr>
+                    <p style="text-align: center; font-size: 12px; color: #666;">This message was sent from Your Website Name.</p>
+                </div>
+            `,
         };
 
         await transporter.sendMail(mailOptions);
-        return res.status(200).json({ success: "Message sent successfully!" });
+        res.status(200).json({ success: "Your message has been sent successfully!" });
 
     } catch (error) {
         console.error("Email error:", error);
-        return res.status(500).json({ error: "Failed to send message." });
+        return res.status(500).json({ error: "Failed to send message. Please try again later." });
     }
 }

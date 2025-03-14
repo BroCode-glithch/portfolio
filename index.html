@@ -836,7 +836,7 @@
                     <div class="col-md-12 text-center">
                         <div class="loading">Loading</div>
                         <!-- <div class="error-message"></div> -->
-                        <!-- <div class="sent-message">Your message has been sent. Thank you!</div> -->
+                        <div class="sent-message">Your message has been sent. Thank you!</div>
 
                         <button type="submit">Send Message</button>
                     </div>
@@ -884,32 +884,43 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script>
-document.querySelector(".php-email-form").addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    const formData = new FormData(this);
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".php-email-form");
     const responseMessage = document.querySelector(".sent-message");
+    const loadingMessage = document.querySelector(".loading");
 
-    try {
-        let response = await fetch("/api/contact", {
-            method: "POST",
-            body: JSON.stringify(Object.fromEntries(formData)),
-            headers: { "Content-Type": "application/json" }
-        });
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        
+        responseMessage.style.display = "none"; // Hide message initially
+        responseMessage.textContent = ""; 
+        document.querySelector(".loading").style.display = "block"; // Show loading
 
-        let data = await response.json();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(form.entries());
 
-        if (response.ok) {
-            responseMessage.textContent = "Your message has been sent. Thank you!";
-            responseMessage.style.display = "block";
-        } else {
-            responseMessage.textContent = data.error || "Error sending message.";
+        try {
+            let response = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            let result = await response.json();
+
+            if (response.ok) {
+                responseMessage.textContent = "Your message has been sent. Thank you!";
+                responseMessage.style.display = "block";
+                form.reset(); // Clear form
+            } else {
+                responseMessage.textContent = data.error || "Something went wrong. Try again!";
+                responseMessage.style.display = "block";
+            }
+        } catch (error) {
+            responseMessage.textContent = "Network error. Please try again later.";
             responseMessage.style.display = "block";
         }
-    } catch (error) {
-        responseMessage.textContent = "Network error. Try again later.";
-        responseMessage.style.display = "block";
-    }
+    });
 });
 </script>
 
