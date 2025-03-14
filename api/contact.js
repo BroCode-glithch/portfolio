@@ -35,7 +35,7 @@ let mailOptions = {
             <p><strong>Message:</strong></p>
             <p style="background: #f4f4f4; padding: 15px; border-left: 4px solid #007bff;">${message}</p>
             <hr>
-            <p style="text-align: center; font-size: 12px; color: #666;">This message was sent from Your <a href="https://portfolio-brocode.vercel.app " target="_blank">Your Portfolio</a></p>
+            <p style="text-align: center; font-size: 12px; color: #666;">This message was sent from: <a href="https://portfolio-brocode.vercel.app " target="_blank">Your Portfolio</a></p>
         </div>
     `,
 };

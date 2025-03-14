@@ -887,8 +887,14 @@
 document.querySelector(".php-email-form").addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const formData = new FormData(this);
+    const form = this;
+    const formData = new FormData(form);
     const responseMessage = document.querySelector(".sent-message");
+    const submitButton = form.querySelector("button[type='submit']");
+
+    // Disable button to prevent multiple submissions
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
 
     try {
         let response = await fetch("/api/contact", {
@@ -902,6 +908,7 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
         if (response.ok) {
             responseMessage.textContent = "Your message has been sent. Thank you!";
             responseMessage.style.display = "block";
+            form.reset(); // Clear input fields
         } else {
             responseMessage.textContent = data.error || "Error sending message.";
             responseMessage.style.display = "block";
@@ -910,9 +917,12 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
         responseMessage.textContent = "Network error. Try again later.";
         responseMessage.style.display = "block";
     }
+
+    // Re-enable button after response
+    submitButton.disabled = false;
+    submitButton.textContent = "Send Message";
 });
 </script>
-
 </body>
 
 </html>
