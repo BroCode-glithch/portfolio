@@ -21,11 +21,11 @@ export default async function handler(req, res) {
                 pass: process.env.EMAIL_PASS, 
             },
         });
-
+let to Mail = "emmaariyom1@gmail.com";
 let mailOptions = {
 			from: `iPortfolio - Emmanuel Ariyo ~ <${process.env.EMAIL_USER}>`, 
 			replyTo: email, 
-    to: process.env.EMAIL_USER,
+    to: toMail,
     subject: `New Message from: ${name} - ${subject}`,
     html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
