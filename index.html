@@ -897,16 +897,16 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
     const loading = document.querySelector(".loading");
     const submitButton = form.querySelector("button[type='submit']");
 
-    // Show loading state
+    // Hide response message and show loading
     responseMessage.style.display = "none";
     loading.style.display = "block";
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
 
     try {
-        let response = await fetch("/api/contact", {
+        let response = await fetch(form.action, {
             method: "POST",
-            body: JSON.stringify(Object.fromEntries(formData.entries())), // Fix FormData conversion
+            body: JSON.stringify(Object.fromEntries(formData.entries())), // Convert FormData to JSON
             headers: { "Content-Type": "application/json" }
         });
 
