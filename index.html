@@ -913,8 +913,8 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
         if (response.ok) {
             responseMessage.textContent = "Your message has been sent. Thank you!";
             responseMessage.style.display = "block";
-            form.reset(); // Clear input fields
             loading.style.display = "none";
+            form.reset(); // Clear input fields
         } else {
             responseMessage.textContent = data.error || "Error sending message.";
             responseMessage.style.display = "block";
