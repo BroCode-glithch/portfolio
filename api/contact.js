@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         });
 
 let mailOptions = {
-			from: `iPortfolio - Emmanuel Ariyo ~ <${email}>`, 
+			from: `iPortfolio - Emmanuel Ariyo ~ <${process.env.EMAIL_USER}>`, 
 			replyTo: email, 
     to: process.env.EMAIL_USER,
     subject: `New Message from: ${name} - ${subject}`,
