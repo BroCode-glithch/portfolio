@@ -21,7 +21,7 @@ export default async function handler(req, res) {
                 pass: process.env.EMAIL_PASS, 
             },
         });
-let to Mail = "emmaariyom1@gmail.com";
+let toMail = "emmaariyom1@gmail.com";
 let mailOptions = {
 			from: `iPortfolio - Emmanuel Ariyo ~ <${process.env.EMAIL_USER}>`, 
 			replyTo: email, 
