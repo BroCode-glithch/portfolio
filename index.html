@@ -894,6 +894,7 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
     const form = this;
     const formData = new FormData(form);
     const responseMessage = document.querySelector(".sent-message");
+    const loading = document.querySelector(".loading");
     const submitButton = form.querySelector("button[type='submit']");
 
     // Disable button to prevent multiple submissions
@@ -913,6 +914,7 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
             responseMessage.textContent = "Your message has been sent. Thank you!";
             responseMessage.style.display = "block";
             form.reset(); // Clear input fields
+            loading.style.display = "none";
         } else {
             responseMessage.textContent = data.error || "Error sending message.";
             responseMessage.style.display = "block";
