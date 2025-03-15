@@ -897,14 +897,16 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
     const loading = document.querySelector(".loading");
     const submitButton = form.querySelector("button[type='submit']");
 
-    // Disable button to prevent multiple submissions
+    // Show loading state
+    responseMessage.style.display = "none";
+    loading.style.display = "block";
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
 
     try {
         let response = await fetch("/api/contact", {
             method: "POST",
-            body: JSON.stringify(Object.fromEntries(formData)),
+            body: JSON.stringify(Object.fromEntries(formData.entries())), // Fix FormData conversion
             headers: { "Content-Type": "application/json" }
         });
 
@@ -913,7 +915,6 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
         if (response.ok) {
             responseMessage.textContent = "Your message has been sent. Thank you!";
             responseMessage.style.display = "block";
-            loading.style.display = "none";
             form.reset(); // Clear input fields
         } else {
             responseMessage.textContent = data.error || "Error sending message.";
@@ -924,7 +925,8 @@ document.querySelector(".php-email-form").addEventListener("submit", async funct
         responseMessage.style.display = "block";
     }
 
-    // Re-enable button after response
+    // Hide loading and reset button state
+    loading.style.display = "none";
     submitButton.disabled = false;
     submitButton.textContent = "Send Message";
 });
