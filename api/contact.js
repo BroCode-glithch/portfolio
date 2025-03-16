@@ -68,7 +68,7 @@ export default async function handler(req, res) {
                         <p>Designed by <strong>DailyDew Code</strong></p>
                         <p>&copy; ${new Date().getFullYear()} Emmanuel Ariyo. All Rights Reserved.</p>
                         <p>Parafa New Era, Ikorodu, Lagos, Nigeria</p>
-                        <p>Phone: 08081770338, 07068934844</p>
+                        <p>Phone: <a href="tel:08081770338">08081770338</a>, <a href="tel:07068934844">07068934844</a></p>
                     </footer>
                 </div>
             `,
