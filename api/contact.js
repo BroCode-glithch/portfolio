@@ -18,14 +18,14 @@ export default async function handler(req, res) {
             secure: true,
             auth: {
                 user: process.env.EMAIL_USER, // Your email
-                pass: process.env.EMAIL_PASS, 
+                pass: process.env.EMAIL_PASS,
             },
         });
 
         // 1️⃣ Send Email to Yourself
         let mailOptions = {
-            from: `iPortfolio - Emmanuel Ariyo ~ <${email}>`, 
-            replyTo: email, 
+            from: `iPortfolio - Emmanuel Ariyo ~ <${email}>`,
+            replyTo: email,
             to: process.env.TO_MAIL, // Your email
             subject: `New Message from: ${name} - ${subject}`,
             html: `
@@ -38,6 +38,12 @@ export default async function handler(req, res) {
                     <p style="background: #f4f4f4; padding: 15px; border-left: 4px solid #007bff;">${message}</p>
                     <hr>
                     <p style="text-align: center; font-size: 12px; color: #666;">This message was sent from: <a href="https://portfolio-brocode.vercel.app" target="_blank">Your Portfolio</a></p>
+                    <footer style="text-align: center; margin-top: 20px; font-size: 12px; color: #444;">
+                        <p>Designed by <strong>DailyDew Code</strong></p>
+                        <p>&copy; ${new Date().getFullYear()} Emmanuel Ariyo. All Rights Reserved.</p>
+                        <p>Parafa New Era, Ikorodu, Lagos, Nigeria</p>
+                        <p>Phone: 08081770338, 07068934844</p>
+                    </footer>
                 </div>
             `,
         };
@@ -46,7 +52,7 @@ export default async function handler(req, res) {
 
         // 2️⃣ Send Confirmation Email to User
         let confirmationMailOptions = {
-            from: `"iPortfolio - Emmanuel Ariyo" <${process.env.EMAIL_USER}>`, 
+            from: `"iPortfolio - Emmanuel Ariyo" <${process.env.EMAIL_USER}>`,
             to: email, // Send to user
             subject: "Thank You for Contacting iPortfolio",
             html: `
@@ -58,6 +64,12 @@ export default async function handler(req, res) {
                     <p style="background: #f4f4f4; padding: 15px; border-left: 4px solid #28a745;">${message}</p>
                     <hr>
                     <p style="text-align: center; font-size: 12px; color: #666;">Sent from <a href="https://portfolio-brocode.vercel.app" target="_blank">My Portfolio</a></p>
+                    <footer style="text-align: center; margin-top: 20px; font-size: 12px; color: #444;">
+                        <p>Designed by <strong>DailyDew Code</strong></p>
+                        <p>&copy; ${new Date().getFullYear()} Emmanuel Ariyo. All Rights Reserved.</p>
+                        <p>Parafa New Era, Ikorodu, Lagos, Nigeria</p>
+                        <p>Phone: 08081770338, 07068934844</p>
+                    </footer>
                 </div>
             `,
         };

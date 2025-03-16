@@ -928,8 +928,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 responseMessage.textContent = "Your message has been sent. Thank you!";
                 responseMessage.style.display = "block";
                 form.reset(); // Reset form fields
+
+                // 🛑 Fix: Prevent reload by hiding success message after some time
                 setTimeout(() => {
-                    responseMessage.style.display = "none"; // Hide message after 5s
+                    responseMessage.style.display = "none";
                 }, 5000);
             } else {
                 responseMessage.textContent = data.error || "Error sending message.";
