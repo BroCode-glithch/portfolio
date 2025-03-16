@@ -1,3 +1,11 @@
+<?php
+require 'db.php';
+
+$stmt = $pdo->prepare("SELECT * FROM app ORDER BY created_at DESC");
+$stmt->execute();
+$app = $stmt->fetchAll();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +13,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>iPortfolio - Emmanuel Ariyo | Web Developer & IT Enthusiast</title>
+  <title><?php=htmlspecialchars($app['title']) ?></title>
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="Emmanuel Ariyo - A passionate web developer and IT enthusiast specializing in web technologies, programming, and problem-solving. Explore my portfolio for innovative projects and digital solutions.">
